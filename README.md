@@ -2,17 +2,61 @@
 
 O objetivo deste projeto é criar um ambiente na [AWS (Amazon Web Services)](https://aws.amazon.com/pt/ "AWS") usando a instância EC2 com o sistema operacional Amazon Linux 2 e configurar um servidor Apache. Além disso, será implementado um script para verificar o status do serviço Apache e registrar os resultados em um diretório NFS.
 
-# **Primeiros Passos:**
-1. Criar uma instancia  EC2 na AWS com as seguintes configurações:
-> - Sistema Operacional (SO): Amazon Linux 2
->- Família: t3.small
->- Armazenamento: 16GB SSD 
+# Requisitos AWS
+	Gerar uma chave pública para acesso ao ambiente;
+	Criar 1 instância EC2 com o sistema operacional Amazon Linux 2 (Família t3.small, 16 GB SSD);
+	Gerar 1 elastic IP e anexar à instância EC2;
+	Liberar as portas de comunicação para acesso público: (22/TCP, 111/TCP e UDP, 2049/TCP/UDP, 80/TCP, 443/TCP).
 
-2.  Liberar as seguintes portas para comunicação externa:
-> 22 - TCP 
-> 111 - TCP e UDP
-> 2049 - TCP e UDP
-> 80 - TCP
-> 443 - TCP.
+# Requisitos Linux
+- Configurar o NFS entregue.
+- 	Criar um diretorio dentro do filesystem do NFS com seu nome.
+- 	Subir um apache no servidor - o apache deve estar online e rodando.
+- 	Criar um script que valide se o serviço esta online e envie o resultado da validação para o seu diretorio no nfs.
+- 	O script deve conter - Data HORA + nome do serviço + Status + mensagem personalizada de ONLINE ou offline.
+- 	O script deve gerar 2 arquivos de saida: 1 para o serviço online e 1 para o serviço OFFLINE.
+- 	Preparar a execução automatizada do script a cada 5 minutos.
+- 	Fazer o versionamento da atividade.
+- 	Fazer a documentação explicando o processo de instalação do Linux.
 
-1. 
+
+#Primeiros Passos na AWS
+####Criação do Security Group:
+	Clique em "Security Groups".
+	Clique em "Create Security Group".
+	Forneça um nome e uma descrição para o SG.
+	Selecione a VPC correta.
+	Adicione as regras de entrada para as portas desejadas.
+	Clique em "Create" para criar o SG.
+	Permita o acesso público às seguintes portas de comunicação: 22/TCP, 111/TCP e UDP, 2049/TCP/UDP, 80/TCP, 443/TCP. Essas portas serão utilizadas para comunicação externa da instância.
+##### A abertura de portas ficará conforme a tabela abaixo:
+| Porta  | Protocolo | Descrição                            |
+|--------|-----------|--------------------------------------|
+| 22     | TCP       | Acesso remoto (SSH)                  |
+| 111    | TCP e UDP | RPC                       |
+| 2049   | TCP e UDP | Network File System (NFS)            |
+| 80     | TCP       | Acesso HTTP        |
+| 443    | TCP       | Acesso HTTPS        |
+
+#### Criação da Instância EC2:
+
+	Clique em "Painel EC2".
+	Clique em "Instâncias".
+	Clique em "Executar Instância".
+	Escolha um nome para sua instância.
+	Selecione a imagem "Amazon Linux 2".
+	Selecione o tipo de instância "t3.small".
+	Crie um par de chaves, que posteriormente será usada para conectar-se a nossa instância.
+	Selecione o Security Group que foi criado anteriormente, com as portas devidamente abertas para comunicação externa.
+	Selecione 16GB de armazenamento SSD (gp3)
+	Clique em "Executar instância".
+
+####Geração do Elastic IP:
+
+	Clique na opção "IPs elásticos"
+	Depois em "Alocar endereço IP elástico"
+	Selecione a mesma região que a sua instância EC-2 está rodando.
+	Clique em "Alocar".
+	Depois de criado o IP, selecione a caixinha a esquerda dele.
+	Clique em "Ações" e selecione a opção "Associar endereço IP elástico"
+	Selecione a instância criada anteriormente e confirme a associação clicando em "Associar"
