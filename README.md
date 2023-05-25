@@ -3,10 +3,10 @@
 O objetivo deste projeto é criar um ambiente na [AWS (Amazon Web Services)](https://aws.amazon.com/pt/ "AWS") usando a instância EC2 com o sistema operacional Amazon Linux 2 e configurar um servidor Apache. Além disso, será implementado um script para verificar o status do serviço Apache e registrar os resultados em um diretório NFS.
 
 # Requisitos AWS
-	Gerar uma chave pública para acesso ao ambiente;
-	Criar 1 instância EC2 com o sistema operacional Amazon Linux 2 (Família t3.small, 16 GB SSD);
-	Gerar 1 elastic IP e anexar à instância EC2;
-	Liberar as portas de comunicação para acesso público: (22/TCP, 111/TCP e UDP, 2049/TCP/UDP, 80/TCP, 443/TCP).
+- 	Gerar uma chave pública para acesso ao ambiente;
+- 	Criar 1 instância EC2 com o sistema operacional Amazon Linux 2 (Família t3.small, 16 GB SSD);
+- 	Gerar 1 elastic IP e anexar à instância EC2;
+- 	Liberar as portas de comunicação para acesso público: (22/TCP, 111/TCP e UDP, 2049/TCP/UDP, 80/TCP, 443/TCP).
 
 # Requisitos Linux
 - Configurar o NFS entregue.
@@ -22,13 +22,14 @@ O objetivo deste projeto é criar um ambiente na [AWS (Amazon Web Services)](htt
 
 #Primeiros Passos na AWS
 ####Criação do Security Group:
-	Clique em "Security Groups".
-	Clique em "Create Security Group".
-	Forneça um nome e uma descrição para o SG.
-	Selecione a VPC correta.
-	Adicione as regras de entrada para as portas desejadas.
-	Clique em "Create" para criar o SG.
-	Permita o acesso público às seguintes portas de comunicação: 22/TCP, 111/TCP e UDP, 2049/TCP/UDP, 80/TCP, 443/TCP. Essas portas serão utilizadas para comunicação externa da instância.
+- 	Clique em "Security Groups".
+- 	Clique em "Create Security Group".
+- 	Forneça um nome e uma descrição para o SG.
+- 	Selecione a VPC correta.
+- 	Adicione as regras de entrada para as portas desejadas.
+- 	Clique em "Create" para criar o SG.
+- 	Permita o acesso público às seguintes portas de comunicação: 22/TCP, 111/TCP e UDP, 2049/TCP/UDP, 80/TCP, 443/TCP. Essas portas serão utilizadas para comunicação externa da instância.
+
 ##### A abertura de portas ficará conforme a tabela abaixo:
 | Porta  | Protocolo | Descrição                            |
 |--------|-----------|--------------------------------------|
@@ -40,23 +41,24 @@ O objetivo deste projeto é criar um ambiente na [AWS (Amazon Web Services)](htt
 
 #### Criação da Instância EC2:
 
-	Clique em "Painel EC2".
-	Clique em "Instâncias".
-	Clique em "Executar Instância".
-	Escolha um nome para sua instância.
-	Selecione a imagem "Amazon Linux 2".
-	Selecione o tipo de instância "t3.small".
-	Crie um par de chaves, que posteriormente será usada para conectar-se a nossa instância.
-	Selecione o Security Group que foi criado anteriormente, com as portas devidamente abertas para comunicação externa.
-	Selecione 16GB de armazenamento SSD (gp3)
-	Clique em "Executar instância".
+1. 	Clique em "Painel EC2".
+2. 	Clique em "Instâncias".
+3. 	Clique em "Executar Instância".
+4. 	Escolha um nome para sua instância.
+5. 	Selecione a imagem "Amazon Linux 2".
+6. 	Selecione o tipo de instância "t3.small".
+7. 	Crie um par de chaves, que posteriormente será usada para conectar-se a nossa instância.
+8. 	Selecione o Security Group que foi criado anteriormente, com as portas devidamente abertas para comunicação externa.
+9. 	Selecione 16GB de armazenamento SSD (gp3)
+10. 	Clique em "Executar instância".
 
-####Geração do Elastic IP:
+#### Geração do Elastic IP:
 
-	Clique na opção "IPs elásticos"
-	Depois em "Alocar endereço IP elástico"
-	Selecione a mesma região que a sua instância EC-2 está rodando.
-	Clique em "Alocar".
-	Depois de criado o IP, selecione a caixinha a esquerda dele.
-	Clique em "Ações" e selecione a opção "Associar endereço IP elástico"
-	Selecione a instância criada anteriormente e confirme a associação clicando em "Associar"
+1. 	Clique na opção "IPs elásticos"
+2. 	Depois em "Alocar endereço IP elástico"
+3. 	Selecione a mesma região que a sua instância EC-2 está rodando.
+4. 	Clique em "Alocar".
+5. 	Depois de criado o IP, selecione a caixinha a esquerda dele.
+6. 	Clique em "Ações" e selecione a opção "Associar endereço IP elástico"
+7. 	Selecione a instância criada anteriormente e confirme a associação clicando em "Associar"
+
