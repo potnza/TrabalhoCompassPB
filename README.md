@@ -1,4 +1,4 @@
-# ** Objetivo:**
+#  Objetivo:
 
 O objetivo deste projeto é criar um ambiente na [AWS (Amazon Web Services)](https://aws.amazon.com/pt/ "AWS") usando a instância EC2 com o sistema operacional Amazon Linux 2 e configurar um servidor Apache. Além disso, será implementado um script para verificar o status do serviço Apache e registrar os resultados em um diretório NFS.
 
