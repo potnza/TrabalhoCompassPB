@@ -108,9 +108,9 @@ O objetivo deste projeto é criar um ambiente na [AWS (Amazon Web Services)](htt
 
 #### Automatizando o Script
 
-Executar o comando `sudo crontab -e`, com ele iremos dar instruções ao nosso script.sh para ser executado de 5 em 5 minutos, item proposto pela atividade.
-Adicione a seguinte linha `*/5 * * * * sudo bash /script.sh`, pressione *CTRL +C* e digite *:q* para sair do editor e salvar as configurações.
-Após executar `sudo crontab -l` para checarmos se o arquivo foi salvo corretamente.
+1. Executar o comando `sudo crontab -e`, com ele iremos dar instruções ao nosso script.sh para ser executado de 5 em 5 minutos, item proposto pela atividade.
+2. Adicione a seguinte linha `*/5 * * * * sudo bash /script.sh`, pressione *CTRL +C* e digite *:q* para sair do editor e salvar as configurações.
+3. Após executar `sudo crontab -l` para checarmos se o arquivo foi salvo corretamente.
 
 
 
