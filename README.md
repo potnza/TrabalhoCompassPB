@@ -22,13 +22,14 @@ O objetivo deste projeto é criar um ambiente na [AWS (Amazon Web Services)](htt
 
 # Primeiros Passos na AWS
 #### Criação do Security Group:
-- 	Clique em "Security Groups".
-- 	Clique em "Create Security Group".
-- 	Forneça um nome e uma descrição para o SG.
-- 	Selecione a VPC correta.
-- 	Adicione as regras de entrada para as portas desejadas.
-- 	Clique em "Create" para criar o SG.
-- 	Permita o acesso público às seguintes portas de comunicação: 22/TCP, 111/TCP e UDP, 2049/TCP/UDP, 80/TCP, 443/TCP. Essas portas serão utilizadas para comunicação externa da instância.
+1. Clique em "Security Groups".
+2. Clique em "Create Security Group".
+3. Forneça um nome e uma descrição para o SG.
+4. Selecione a VPC correta.
+5. Adicione as regras de entrada para as portas desejadas.
+6. Clique em "Create" para criar o SG.
+7. Permita o acesso público às seguintes portas de comunicação: 22/TCP, 111/TCP e UDP, 2049/TCP/UDP, 80/TCP, 443/TCP. Essas portas serão utilizadas para comunicação externa da instância.
+
 
 ##### A abertura de portas ficará conforme a tabela abaixo:
 | Porta  | Protocolo | Descrição                            | Origem      |
