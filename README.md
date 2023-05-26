@@ -31,13 +31,14 @@ O objetivo deste projeto é criar um ambiente na [AWS (Amazon Web Services)](htt
 - 	Permita o acesso público às seguintes portas de comunicação: 22/TCP, 111/TCP e UDP, 2049/TCP/UDP, 80/TCP, 443/TCP. Essas portas serão utilizadas para comunicação externa da instância.
 
 ##### A abertura de portas ficará conforme a tabela abaixo:
-| Porta  | Protocolo | Descrição                            |
-|--------|-----------|--------------------------------------|
-| 22     | TCP       | Acesso remoto (SSH)                  |
-| 111    | TCP e UDP | RPC                       |
-| 2049   | TCP e UDP | Network File System (NFS)            |
-| 80     | TCP       | Acesso HTTP        |
-| 443    | TCP       | Acesso HTTPS        |
+| Porta  | Protocolo | Descrição                            | Origem      |
+|--------|-----------|--------------------------------------|-------------|
+| 22     | TCP       | Acesso remoto (SSH)                  | 0.0.0.0/0    |
+| 111    | TCP e UDP | RPC                                  | 0.0.0.0/0     |
+| 2049   | TCP e UDP | Network File System (NFS)            | 0.0.0.0/0     |
+| 80     | TCP       | Acesso HTTP                          | 0.0.0.0/0     |
+| 443    | TCP       | Acesso HTTPS                         | 0.0.0.0/0    |
+
 
 #### Criação da Instância EC2:
 
@@ -87,6 +88,29 @@ O objetivo deste projeto é criar um ambiente na [AWS (Amazon Web Services)](htt
 1. Para mantermos essas configurações caso a nossa instância venha a sofrer um reboot, devemos editar o arquivo presente *fstab*, que fica localizada no caminho */etc/fstab*. Para fazermos essa edição devemos utilizar o comando `sudo nano /etc/fstab` e acrescentar a seguinte linha de código `id_do_seu-EFS	/mnt/EFS  efs  defaults,_netdev 0     0`
 1. Usar o comando `mkdir /mnt/EFS/<seu-nome>` para criarmos um diretório conforme a atividade exige.
 
+#### Criação do Script
+
+1. Criar um arquivo utilizando o comando `nano script.sh`
+2. Adicionar o seguinte código ao nosso arquivo .sh 
+
+        #!/bin/bash
+        SERVICE=httpd
+        STATUS=$(systemctl is-active $SERVICE)
+        DATE=$(date +"%d/%m/%Y %H:%M:%S")
+        if [ $STATUS == "active" ]; then
+          MESSAGE="O apache $SERVICE está ONLINE"
+          echo "$DATE - $MESSAGE" >> /mnt/EFS/<seu-nome>/online.log
+        else
+          MESSAGE="O apache $SERVICE está OFFLINE"
+          echo "$DATE - $MESSAGE" >> /mnt/EFS/<seu-nome>/offline.log
+        fi
+1. Alterar as permissões de do script usando o comando `chmod +x script.sh`, esse comando concede permissões de execução do script na nossa instância.
+
+#### Automatizando o Script
+
+Executar o comando `sudo crontab -e`, com ele iremos dar instruções ao nosso script.sh para ser executado de 5 em 5 minutos, item proposto pela atividade.
+Adicione a seguinte linha `*/5 * * * * sudo bash /script.sh`, pressione *CTRL +C* e digite *:q* para sair do editor e salvar as configurações.
+Após executar `sudo crontab -l` para checarmos se o arquivo foi salvo corretamente.
 
 
 
