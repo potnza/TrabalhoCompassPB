@@ -20,8 +20,8 @@ O objetivo deste projeto é criar um ambiente na [AWS (Amazon Web Services)](htt
 - 	Fazer a documentação explicando o processo de instalação do Linux.
 
 
-#Primeiros Passos na AWS
-####Criação do Security Group:
+# Primeiros Passos na AWS
+#### Criação do Security Group:
 - 	Clique em "Security Groups".
 - 	Clique em "Create Security Group".
 - 	Forneça um nome e uma descrição para o SG.
@@ -50,7 +50,7 @@ O objetivo deste projeto é criar um ambiente na [AWS (Amazon Web Services)](htt
 7. 	Crie um par de chaves, que posteriormente será usada para conectar-se a nossa instância.
 8. 	Selecione o Security Group que foi criado anteriormente, com as portas devidamente abertas para comunicação externa.
 9. 	Selecione 16GB de armazenamento SSD (gp3)
-10. 	Clique em "Executar instância".
+10. Clique em "Executar instância".
 
 #### Geração do Elastic IP:
 
@@ -61,4 +61,33 @@ O objetivo deste projeto é criar um ambiente na [AWS (Amazon Web Services)](htt
 5. 	Depois de criado o IP, selecione a caixinha a esquerda dele.
 6. 	Clique em "Ações" e selecione a opção "Associar endereço IP elástico"
 7. 	Selecione a instância criada anteriormente e confirme a associação clicando em "Associar"
+
+#### Configurando nosso EFS
+1. Digite *EFS* no campo de busca.
+2. Clique na opção para criar um sistema de arquivos.
+3. Escolha um nome para o seu sistema de arquivos e selecione uma VPC.
+4. Clique sobre o EFS recem criado e selecione a opção "ver detalhes"
+5. Depois selecione a opção "rede" e logo em seguido "editar"
+6. Logo após, selecione o SG da instância que estará sendo usada para o trabalho.
+1. Clique em "Anexar" e copie o comando que está abaixo da opção "Usando o cliente NFS"
+
+# Configuração no Ambiente Linux
+
+#### Configuração do Apache
+1. Primeiro vamos fazer a instalação dos pacotes, executando o comando `sudo yum install httpd`.
+2. Agora vamos inicar o servidor apache, utilizando o comando `sudo systemctl start httpd`.
+3. Nessa etapa, iremos automatizar a inicilização do apache, que será feito no momento que a nossa instância for iniciada, para isso utilize o comando `sudo systemctl enable httpd`.
+4. Agora para verificar a situação do servidor, utilize o comando `sudo systemctl status httpd`.
+
+### Configuração do EFS na instância EC-2
+
+1. Primeiramente, devemos fazer a instalação dos pacote *amazon-efs-utils* , que irá fazer a manipulação do nosso EFS. Para isso, execute o comando `sudo yum install amazon-efs-utils` e espere a instalação ser realizada.
+2. Após, realizar a execução do comando `sudo mkdir mnt/EFS`.
+3. Logo após, iremos rodar o comando que copiamos, do EFS. Deverá ser um comando assim `sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport id_do_seu_efs:/ mnt/EFS `, esse comando tem como finalidade montar o EFS no diretório que criamos anteriormente.
+1. Para mantermos essas configurações caso a nossa instância venha a sofrer um reboot, devemos editar o arquivo presente *fstab*, que fica localizada no caminho */etc/fstab*. Para fazermos essa edição devemos utilizar o comando `sudo nano /etc/fstab` e acrescentar a seguinte linha de código `id_do_seu-EFS	/mnt/EFS  efs  defaults,_netdev 0     0`
+1. Usar o comando `mkdir /mnt/EFS/<seu-nome>` para criarmos um diretório conforme a atividade exige.
+
+
+
+
 
